@@ -15,12 +15,18 @@ function App() {
   });
 
   const weatherData = useFetch(URL);
-  const [weather, setWeather] = useState(weatherData);
-  const filteredActivities = activities.filter(
-    (activity) => activity.isForGoodWeather === weather
-  );
+  const [weather, setWeather] = useState({});
 
-  console.log(weatherData);
+  useEffect(() => {
+    console.log("test");
+    setWeather(weatherData);
+  }, [weatherData]);
+
+  console.log("weather:", weather);
+
+  const filteredActivities = activities.filter(
+    (activity) => activity.isForGoodWeather === weather.isGoodWeather
+  );
 
   function handleAddActivity(newActivityName, isForGoodWeather) {
     setActivities([
@@ -31,7 +37,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header weather={weather} />
+      <Header condition={weather.condition} temperature={weather.temperature} />
       <Form onAddActivity={handleAddActivity} />
       <List activities={filteredActivities} />
     </div>

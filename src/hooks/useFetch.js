@@ -7,7 +7,6 @@ export default function useFetch(url) {
     async function startFetching() {
       try {
         const response = await fetch(url);
-        console.log(response);
         if (response.ok) {
           const data = await response.json();
           setData(data);
