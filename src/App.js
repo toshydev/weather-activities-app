@@ -1,23 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Form from "./components/Form";
+import useLocalStorageState from "use-local-storage-state";
+import { useState, useEffect } from "react";
+import { uid } from "uid";
+import List from "./components/List";
+import useFetch from "./hooks/useFetch";
+import Header from "./components/Header";
+import LocationSelector from "./components/LocationSelector";
+
+const URL = "https://example-apis.vercel.app/api/weather/";
 
 function App() {
+  const [activities, setActivities] = useLocalStorageState("activities", {
+    defaultValue: [],
+  });
+  const [location, setLocation] = useLocalStorageState("location", {
+    defaultValue: "europe",
+  });
+  const weatherData = useFetch(URL + location);
+  const [weather, setWeather] = useState({});
+
+  useEffect(() => {
+    setWeather(weatherData);
+  }, [weatherData]);
+
+  const filteredActivities = activities.filter(
+    (activity) => activity.isForGoodWeather === weather?.isGoodWeather
+  );
+
+  function handleAddActivity(newActivityName, isForGoodWeather) {
+    setActivities([
+      ...activities,
+      { name: newActivityName, isForGoodWeather: isForGoodWeather, id: uid() },
+    ]);
+  }
+
+  function handleDeleteActivity(idToDelete) {
+    setActivities(activities.filter((activity) => activity.id !== idToDelete));
+  }
+
+  function handleSetLocation(newLocation) {
+    setLocation(newLocation);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LocationSelector onSetLocation={handleSetLocation} />
+      <Header
+        condition={weather?.condition}
+        temperature={weather?.temperature}
+        isGoodWeather={weather?.isGoodWeather}
+      />
+      <List
+        activities={filteredActivities}
+        onDeleteActivity={handleDeleteActivity}
+      />
+      <Form onAddActivity={handleAddActivity} />
     </div>
   );
 }
