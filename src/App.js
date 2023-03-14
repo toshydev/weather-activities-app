@@ -8,18 +8,17 @@ import useFetch from "./hooks/useFetch";
 import Header from "./components/Header";
 import LocationSelector from "./components/LocationSelector";
 
-const URL = "https://example-apis.vercel.app/api/weather/rainforest";
+const URL = "https://example-apis.vercel.app/api/weather/";
 
 function App() {
   const [activities, setActivities] = useLocalStorageState("activities", {
     defaultValue: [],
   });
-
-  const weatherData = useFetch(URL);
-  const [weather, setWeather] = useState({});
   const [location, setLocation] = useLocalStorageState("location", {
     defaultValue: "europe",
   });
+  const weatherData = useFetch(URL + location);
+  const [weather, setWeather] = useState({});
 
   useEffect(() => {
     setWeather(weatherData);

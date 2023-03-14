@@ -5,7 +5,7 @@ export default function LocationSelector({ onSetLocation }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    onSetLocation(data);
+    onSetLocation(data.location);
   }
 
   return (
@@ -13,7 +13,7 @@ export default function LocationSelector({ onSetLocation }) {
       <label htmlFor="location">Select a location: </label>
       <select id="location" name="location">
         <option value="europe">Europe</option>
-        <optio value="arctic">Arctic</optio>
+        <option value="arctic">Arctic</option>
         <option value="sahara">Sahara</option>
         <option value="rainforest">Rainforest</option>
       </select>
