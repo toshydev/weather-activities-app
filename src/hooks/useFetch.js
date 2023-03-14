@@ -17,7 +17,11 @@ export default function useFetch(url) {
         console.log("Error!");
       }
     }
-    startFetching();
+    const intervalID = setInterval(() => {
+      startFetching();
+    }, 5000);
+
+    return () => clearInterval(intervalID);
   }, [url]);
   return data;
 }

@@ -7,7 +7,7 @@ import List from "./components/List";
 import useFetch from "./hooks/useFetch";
 import Header from "./components/Header";
 
-const URL = "https://example-apis.vercel.app/api/weather/europe";
+const URL = "https://example-apis.vercel.app/api/weather/rainforest";
 
 function App() {
   const [activities, setActivities] = useLocalStorageState("activities", {
