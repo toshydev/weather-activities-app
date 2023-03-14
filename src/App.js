@@ -18,14 +18,11 @@ function App() {
   const [weather, setWeather] = useState({});
 
   useEffect(() => {
-    console.log("test");
     setWeather(weatherData);
   }, [weatherData]);
 
-  console.log("weather:", weather);
-
   const filteredActivities = activities.filter(
-    (activity) => activity.isForGoodWeather === weather.isGoodWeather
+    (activity) => activity.isForGoodWeather === weather?.isGoodWeather
   );
 
   function handleAddActivity(newActivityName, isForGoodWeather) {
@@ -35,11 +32,22 @@ function App() {
     ]);
   }
 
+  function handleDeleteActivity(idToDelete) {
+    setActivities(activities.filter((activity) => activity.id !== idToDelete));
+  }
+
   return (
     <div className="App">
-      <Header condition={weather.condition} temperature={weather.temperature} />
+      <Header
+        condition={weather?.condition}
+        temperature={weather?.temperature}
+        isGoodWeather={weather?.isGoodWeather}
+      />
+      <List
+        activities={filteredActivities}
+        onDeleteActivity={handleDeleteActivity}
+      />
       <Form onAddActivity={handleAddActivity} />
-      <List activities={filteredActivities} />
     </div>
   );
 }
