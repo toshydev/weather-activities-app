@@ -1,10 +1,13 @@
+import "./List.css";
+
 export default function List({ activities, onDeleteActivity }) {
   return (
-    <ul>
+    <ul className="activitiesList">
       {activities.map((activity) => (
-        <li key={activity.id}>
+        <li className="activitiesList__listItem" key={activity.id}>
           {activity.name}
           <button
+            className="activitiesList__deleteButton"
             type="button"
             aria-label="delete activity"
             onClick={() => onDeleteActivity(activity.id)}
