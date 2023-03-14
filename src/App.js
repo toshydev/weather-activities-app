@@ -1,17 +1,20 @@
 import "./App.css";
 import Form from "./components/Form";
 import useLocalStorageState from "use-local-storage-state";
+import { useState } from "react";
 import { uid } from "uid";
 import List from "./components/List";
+import useFetch from "./hooks/useFetch";
+
+// weather-api-url: https://example-apis.vercel.app/api/weather/europe
 
 function App() {
   const [activities, setActivities] = useLocalStorageState("activities", {
     defaultValue: [],
   });
-
-  const isGoodWeather = true;
+  const [weather, setWeather] = useState(true);
   const filteredActivities = activities.filter(
-    (activity) => activity.isForGoodWeather === isGoodWeather
+    (activity) => activity.isForGoodWeather === weather
   );
 
   function handleAddActivity(newActivityName, isForGoodWeather) {
